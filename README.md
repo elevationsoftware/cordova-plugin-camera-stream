@@ -2,11 +2,11 @@
 
 This plugin enables consumption of the device camera stream from an HTML Element.
 
-The plugin provides a simple [JavaScript API](#api) for iOS. 
+The plugin provides a simple JavaScript API for iOS. 
 
  * Start Streaming
  * Capture streaming
- * Selecting back or from camera
+ * Selecting back or front camera
  
 After starting the streaming the plugin would provide access to a base64 string that can be convert it into a byteArray or just simply be associated with an image element. The reason for this plugin is to provide the ability to control the feel and look of the camera view with css directly from the DOM.
 
@@ -28,7 +28,7 @@ Android support is not really necessary because you can acquire the same stream 
 
 The plugin exposes the `cordova.plugins.CameraStream` JavaScript namespace which contains two functions.
 
-# Assign Stream to a image tag
+# Assign Stream to an image tag
 
 ```javascript
 var imageElement = document.getElementById('<imageId>');
@@ -39,7 +39,7 @@ cordova.plugins.CameraStream.capture = function(data){
 
 // Start the streaming and select the camera
 // @camera - front or back
-cordova.plugins.iosrtc.CameraStream.startCapture('front')
+cordova.plugins.CameraStream.startCapture('front')
   
 ```
 
@@ -62,7 +62,7 @@ cordova.plugins.CameraStream.capture = function(data){
 
 // Start the streaming and select the camera
 // @camera - front or back
-cordova.plugins.iosrtc.CameraStream.startCapture('front')
+cordova.plugins.CameraStream.startCapture('front')
   
 ```
 
