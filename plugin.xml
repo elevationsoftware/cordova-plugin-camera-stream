@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-camera-stream" version="0.1.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>CameraStream</name>
+    <js-module name="CameraStream" src="www/CameraStream.js">
+        <clobbers target="cordova.plugins.CameraStream" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="CameraStream">
+                <param name="ios-package" value="CameraStream" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/CameraStream.swift" />
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>The camera is used to create a base64 string.</string>
+        </config-file>
+        <dependency id="cordova-plugin-add-swift-support" version="1.7.1"/>
+    </platform>
+</plugin>

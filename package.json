@@ -1,0 +1,25 @@
+{
+  "name": "cordova-plugin-camera-stream",
+  "version": "0.1.2",
+  "description": "Get an stream from the iOS device to enable the camera view on an HTML element",
+  "cordova": {
+    "id": "cordova-plugin-camera-stream",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elevationsoftware/cordova-plugin-camera-stream.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "Elevated Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elevationsoftware/cordova-plugin-camera-stream/issues"
+  },
+  "homepage": "https://github.com/elevationsoftware/cordova-plugin-camera-stream#readme"
+}
