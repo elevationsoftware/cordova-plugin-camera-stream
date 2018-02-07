@@ -55,10 +55,21 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
     
-    @objc(capture:)
-    func capture(command: CDVInvokedUrlCommand){
-        
+    @objc(pause:)
+    func pause(command: CDVInvokedUrlCommand){
+        if session?.isRunning {
+            session?.stopRunning()
+        }
     }
+    
+    @objc(resume:)
+    func resume(command: CDVInvokedUrlCommand){
+        if session?.isRunning {
+            return
+        }
+        session?.startRunning()
+    }
+    
     
     func captureOutput(_ output: AVCaptureOutput,  didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         autoreleasepool{
@@ -94,7 +105,7 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
             // Generating a base64 string for cordova's consumption
             let base64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.endLineWithLineFeed)
             // Describe the function that is going to be call by the webView frame
-            let javascript = "cordova.plugins.CameraBase64.capture('data:image/jpeg;base64,\(base64!)')"
+            let javascript = "cordova.plugins.CameraStream.capture('data:image/jpeg;base64,\(base64!)')"
             
             if let webView = webView {
                 if let uiWebView = webView as? UIWebView {
