@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import WebKit
 
 @objc(CameraStream)
 class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -49,7 +50,6 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
             if session!.canAddOutput(videoDataOutput) {
                 mainCommand = command
                 session!.addOutput(videoDataOutput)
-                // lets start some session baby :)
                 session!.startRunning()
             }
         }
@@ -57,22 +57,26 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     @objc(pause:)
     func pause(command: CDVInvokedUrlCommand){
-        if session?.isRunning {
+        if ((session?.isRunning) != nil) {
             session?.stopRunning()
         }
     }
     
     @objc(resume:)
     func resume(command: CDVInvokedUrlCommand){
-        if session?.isRunning {
-            return
+        if ((session?.isRunning) != nil) {
+            session?.startRunning()
         }
-        session?.startRunning()
     }
     
     
     func captureOutput(_ output: AVCaptureOutput,  didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         autoreleasepool{
+            print("capturing output")
+
+            //change camera orientation to have it point in the right direction
+            connection.videoOrientation = AVCaptureVideoOrientation(rawValue: 3)!;
+            
             let  imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
             // Lock the base address of the pixel buffer
             CVPixelBufferLockBaseAddress(imageBuffer!, CVPixelBufferLockFlags.readOnly)
@@ -101,16 +105,16 @@ class CameraStream: CDVPlugin, AVCaptureVideoDataOutputSampleBufferDelegate {
             
             // Create an image object from the Quartz image
             let image = UIImage.init(cgImage: quartzImage!)
-            let imageData = UIImageJPEGRepresentation(image, 0.3)
+            let imageData = image.jpegData(compressionQuality: 0.3)
             // Generating a base64 string for cordova's consumption
             let base64 = imageData?.base64EncodedString(options: Data.Base64EncodingOptions.endLineWithLineFeed)
             // Describe the function that is going to be call by the webView frame
             let javascript = "cordova.plugins.CameraStream.capture('data:image/jpeg;base64,\(base64!)')"
             
             if let webView = webView {
-                if let uiWebView = webView as? UIWebView {
+                if let wkwebview = webView as? WKWebView {
                     // Evaluating the function
-                    uiWebView.stringByEvaluatingJavaScript(from: javascript)
+                    wkwebview.evaluateJavaScript(javascript)
                 }
             } else {
                 print("webView is nil")
