@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-camera-stream",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Get an stream from the iOS device to enable the camera view on an HTML element",
   "cordova": {
     "id": "cordova-plugin-camera-stream",
